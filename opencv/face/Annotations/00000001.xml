@@ -1,0 +1,11 @@
+<annotation>
+	<object>
+		<name>face</name>
+		<bndbox>
+			<xmin>110</xmin>
+			<ymin>103</ymin>
+			<xmax>193</xmax>
+			<ymax>186</ymax>
+		</bndbox>
+	</object>
+</annotation>
