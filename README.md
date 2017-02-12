@@ -15,7 +15,6 @@ Tools
 * resize: 画像のサイズを変更する
 
 * webcam: カメラの映像を加工する
-
-** webcam2manga.py: カメラの映像を漫画風に変更する
+  * webcam2manga.py: カメラの映像を漫画風に変更する
 
 
