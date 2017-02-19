@@ -7,6 +7,8 @@ python tools
 
 ### openCV
 
+* data augmentation: レベル補正×コントラスト補正、明度補正×彩度補のマトリクス表分のデータを増やす。入力は動画を画像化したディレクトリ。
+
 * expansion: 画像を反復しながら拡張する
 
 * flip: 画像を左右に反転させる
