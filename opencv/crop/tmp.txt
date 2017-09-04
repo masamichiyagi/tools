@@ -1,0 +1,6 @@
+python annotation2clop.py -i /data1/okuda/apple/JPEGImages/00000000 -x /data1/okuda/apple/Annotations/00000000.anno -o /data1/okuda/apple/JPEGImages_croped/00000000
+python annotation2clop.py -i /data1/okuda/apple/JPEGImages/00000001 -x /data1/okuda/apple/Annotations/00000001.anno -o /data1/okuda/apple/JPEGImages_croped/00000001
+python annotation2clop.py -i /data1/okuda/apple/JPEGImages/00000002 -x /data1/okuda/apple/Annotations/00000002.anno -o /data1/okuda/apple/JPEGImages_croped/00000002
+python annotation2clop.py -i /data1/okuda/apple/JPEGImages/00000003 -x /data1/okuda/apple/Annotations/00000003.anno -o /data1/okuda/apple/JPEGImages_croped/00000003
+python annotation2clop.py -i /data1/okuda/apple/JPEGImages/00000004 -x /data1/okuda/apple/Annotations/00000004.anno -o /data1/okuda/apple/JPEGImages_croped/00000004
+python annotation2clop.py -i /data1/okuda/apple/JPEGImages/00000005 -x /data1/okuda/apple/Annotations/00000005.anno -o /data1/okuda/apple/JPEGImages_croped/00000005
