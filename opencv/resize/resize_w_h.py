@@ -11,7 +11,8 @@ def arg_parser():
     parser = argparse.ArgumentParser(description='Filter')
     parser.add_argument('-i', '--indir',  dest='indir',  help='input file directory', required=True)
     parser.add_argument('-o', '--outdir',  dest='outdir',  help='output file directory', required=True)
-    parser.add_argument('-r', '--rate',  dest='rate',  help='rate', default='2', required=False)
+    parser.add_argument('-w', '--width',  dest='width',  help='width', default='480', required=False)
+    parser.add_argument('-he', '--height',  dest='height',  help='height', default='360', required=False)
     parser.add_argument('-e', '--expansion',  dest='expansion',  help='expansion', default='jpg', required=False)
     args = parser.parse_args()
 
@@ -28,8 +29,7 @@ def arg_parser():
 ###################################
 def filters(filename):
     im = cv2.imread(filename, 1)
-    height, width, ch = im.shape
-    return cv2.resize(im, (int(width/float(args.rate)), int(height/float(args.rate))))
+    return cv2.resize(im, (int(args.width), int(args.height)))
 
 ###################################
 ## Main roop
