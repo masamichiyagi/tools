@@ -9,13 +9,9 @@ import numpy as np
 ###################################
 def arg_parser():
     parser = argparse.ArgumentParser(description='Filter')
-    parser.add_argument('-i', '--indir', dest='indir',  help='input file directory', required=True)
-    parser.add_argument('-o', '--outdir', dest='outdir',  help='output file directory', required=True)
-    parser.add_argument('-e', '--expansion', dest='expansion',  help='expansion', default='jpg', required=False)
-    parser.add_argument('--xmin', dest='xmin', help='xmin', default='406', required=False)
-    parser.add_argument('--xmax', dest='xmax', help='xmax', default='882', required=False)
-    parser.add_argument('--ymin', dest='ymin', help='ymin', default='119', required=False)
-    parser.add_argument('--ymax', dest='ymax', help='ymax', default='504', required=False)
+    parser.add_argument('-i', '--indir',  dest='indir',  help='input file directory', required=True)
+    parser.add_argument('-o', '--outdir',  dest='outdir',  help='output file directory', required=True)
+    parser.add_argument('-e', '--expansion',  dest='expansion',  help='expansion', default='jpg', required=False)
     args = parser.parse_args()
 
     if (not os.path.exists(args.indir)):
@@ -29,9 +25,12 @@ def arg_parser():
 ###################################
 ## Filter function
 ###################################
-def filters(filename, xmin, xmax, ymin, ymax):
-    im = cv2.imread(filename, 1)
-    result = im[ymin:ymax, xmin:xmax]
+def filters(filename):
+    im = cv2.imread(filename)
+    result = im.copy()
+    result[im<100] = 0
+    result[im>180] = 255
+ 
     return result
 
 ###################################
@@ -39,15 +38,11 @@ def filters(filename, xmin, xmax, ymin, ymax):
 ###################################
 if __name__ == "__main__":
     args = arg_parser()
-    xmin = int(args.xmin)
-    xmax = int(args.xmax)
-    ymin = int(args.ymin)
-    ymax = int(args.ymax)
     files = glob.glob(os.path.join(args.indir, '*.' + args.expansion))
     files.sort()
 
     for filename in files:
-        result = filters(filename, xmin, xmax, ymin, ymax)
+        result = filters(filename)
         outpath = os.path.join(args.outdir, os.path.basename(filename))
         cv2.imwrite(outpath, result)
 

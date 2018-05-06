@@ -9,13 +9,10 @@ import numpy as np
 ###################################
 def arg_parser():
     parser = argparse.ArgumentParser(description='Filter')
-    parser.add_argument('-i', '--indir', dest='indir',  help='input file directory', required=True)
-    parser.add_argument('-o', '--outdir', dest='outdir',  help='output file directory', required=True)
-    parser.add_argument('-e', '--expansion', dest='expansion',  help='expansion', default='jpg', required=False)
-    parser.add_argument('--xmin', dest='xmin', help='xmin', default='406', required=False)
-    parser.add_argument('--xmax', dest='xmax', help='xmax', default='882', required=False)
-    parser.add_argument('--ymin', dest='ymin', help='ymin', default='119', required=False)
-    parser.add_argument('--ymax', dest='ymax', help='ymax', default='504', required=False)
+    parser.add_argument('-i', '--indir',  dest='indir',  help='input file directory', required=True)
+    parser.add_argument('-o', '--outdir',  dest='outdir',  help='output file directory', required=True)
+    parser.add_argument('-e', '--expansion',  dest='expansion',  help='expansion', default='png', required=False)
+    parser.add_argument('-t', '--trans',  dest='trans',  help='transparency', required=False, default="1")
     args = parser.parse_args()
 
     if (not os.path.exists(args.indir)):
@@ -29,25 +26,32 @@ def arg_parser():
 ###################################
 ## Filter function
 ###################################
-def filters(filename, xmin, xmax, ymin, ymax):
-    im = cv2.imread(filename, 1)
-    result = im[ymin:ymax, xmin:xmax]
-    return result
+def filters(filename, trans):
+    im = cv2.imread(filename, -1)
+    width, height, c = im.shape[:3]
+    
+    if ( c < 4):
+        print("Image is not transparent type.")
+        print("Channel is " + str(c))
+        return im
+
+    msk = np.zeros((width, height, 4), dtype=im.dtype)
+    msk[:,:,0] = msk[:,:,1] = msk[:,:,2] = msk[:,:,3] = im[:, :, 3]
+    im[msk<trans]=255
+    return im[:,:,:3]
+ 
 
 ###################################
 ## Main roop
 ###################################
 if __name__ == "__main__":
     args = arg_parser()
-    xmin = int(args.xmin)
-    xmax = int(args.xmax)
-    ymin = int(args.ymin)
-    ymax = int(args.ymax)
+    trans = int(args.trans)
     files = glob.glob(os.path.join(args.indir, '*.' + args.expansion))
     files.sort()
 
     for filename in files:
-        result = filters(filename, xmin, xmax, ymin, ymax)
+        result = filters(filename, trans)
         outpath = os.path.join(args.outdir, os.path.basename(filename))
         cv2.imwrite(outpath, result)
 
