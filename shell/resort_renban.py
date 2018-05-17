@@ -10,7 +10,6 @@ def arg_parser():
     parser.add_argument('-i', '--indir',  dest='indir',  help='input file directory', required=True)
     parser.add_argument('-s', '--index',  dest='index',  help='start index', default='0', required=False)
     parser.add_argument('-p', '--prefix',  dest='prefix',  help='prefix', default='', required=False)
-    a
     args = parser.parse_args()
 
     if (not os.path.exists(args.indir)):
@@ -24,7 +23,7 @@ def arg_parser():
 ###################################
 if __name__ == "__main__":
     args = arg_parser()
-    index = int(args.number)
+    index = int(args.index)
     files = glob.glob(os.path.join(args.indir, '*.*'))
     files.sort()
     files.reverse()
