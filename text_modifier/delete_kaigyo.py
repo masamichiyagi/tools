@@ -43,8 +43,8 @@ def filtering(filename):
     text = ''
     with codecs.open(filename, 'r', 'utf-8', 'ignore') as f:
         Allf = f.read()
-        text = Allf.replace('\n','')
-        text = text.replace('\r',' ')
+        text = Allf.replace('\n',' ')
+        text = text.replace('\r','')
         f.close()
     return text
 

@@ -34,7 +34,7 @@ def arg_parser():
 #################################################
 ## OpenCV filtering function
 #################################################
-def filtering(filename, dst):
+def filtering(filename, dst=r''):
     text = ''
     with codecs.open(filename, 'r', 'utf-8', 'ignore') as f:
         Allf = f.read()

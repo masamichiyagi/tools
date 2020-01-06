@@ -4,6 +4,7 @@ import sys
 import glob
 import argparse
 import codecs
+import re
 
 #################################################
 ## Gloval Variables Definition
@@ -38,7 +39,7 @@ def filtering(filename, before, after):
     text = ''
     with codecs.open(filename, 'r', 'utf-8', 'ignore') as f:
         Allf = f.read()
-        text = Allf.replace(before, after)
+        text = re.sub(before, after, Allf, flags=re.MULTILINE)
         f.close()
     return text
 

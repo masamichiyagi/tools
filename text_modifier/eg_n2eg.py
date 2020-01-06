@@ -37,7 +37,9 @@ def filtering(filename):
     text = ''
     with codecs.open(filename, 'r', 'utf-8', 'ignore') as f:
         Allf = f.read()
-        text = re.sub(r'(e.g.\n)', r'e.g. ', Allf, flags=re.MULTILINE)
+        text = re.sub(r'e.g.\n', r'e.g. ', Allf, flags=re.MULTILINE)
+        text = re.sub(r'Fig.\n', r'Fig. ', text, flags=re.MULTILINE)
+        text = re.sub(r'et al.\n', r'et al. ', text, flags=re.MULTILINE)
         f.close()
     return text
 

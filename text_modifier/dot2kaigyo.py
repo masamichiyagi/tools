@@ -4,6 +4,7 @@ import sys
 import glob
 import argparse
 import codecs
+import re
 
 # If you use PIL, you can remove comment.
 #from PIL import Image
@@ -43,7 +44,8 @@ def filtering(filename):
     text = ''
     with codecs.open(filename, 'r', 'utf-8', 'ignore') as f:
         Allf = f.read()
-        text = Allf.replace('. ','.\r\n')
+        #text = Allf.replace('.[ ]+','.\n')
+        text = re.sub(r'\.\s+', '.\n', Allf, flags=re.MULTILINE)
         f.close()
     return text
 
