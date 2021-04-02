@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pdf2image import convert_from_path
+from pdf2image import convert_from_bytes
 import os
 import sys
 import glob
@@ -28,6 +29,8 @@ def main():
     args = arg_parser()
 
     images = convert_from_path(args.infile, 300) #300=DPI
+    print(images)
+    #images = convert_from_bytes(open(args.infile, 'rb').read())
     for i in range(len(images)):
         images[i].save(args.infile + "-{0:03d}".format(i) + "." + args.expansion, args.expansion)
 
