@@ -259,8 +259,28 @@
 # no audio: -an
 # for power point : -pix_fmt yuv420p     :or: -vf format=yuv420p
 
-ffmpeg -i $1 -movflags faststart -vcodec libx264 -an output.mp4
+ffmpeg -i $1 -vcodec libx264 -an -movflags faststart output.mp4
 
+################################################
+## Download web movie
+################################################
 # url m3u8 to mp4
-ffmpeg -i $1 -movflags faststart -c copy -bsf:a aac_adtstoasc $2
+ffmpeg -i $1 -c copy -bsf:a aac_adtstoasc -movflags faststart $2
+
+################################################
+## AES-128 Encryption
+### video.keyinfo
+#### key file name
+#### path to the key file
+#### for example
+#### key.bin
+#### ./key.bin
+################################################
+ffmpeg -i input.mp4 -c:v copy -c:a copy -f hls -hls_key_info_file video.keyinfo -hls_time 9 -hls_playlist_type vod -hls_segment_filename "stream%3d.ts" stream.m3u8
+
+################################################
+## AES-128 Decryption
+################################################
+ffmpeg -allowed_extensions ALL -i stream.m3u8 -c copy output.mp4
+
 
