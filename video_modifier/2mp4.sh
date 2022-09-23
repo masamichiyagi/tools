@@ -5,7 +5,8 @@
 #ffmpeg -i $1 -pix_fmt yuv420p -s 640x400 -aspect 16:9 -vf setpts=PTS/2.0  -an $1".mp4"
 ## mkv2mp4, flv2mp4
 #ffmpeg -i $1 -q:v 1 -vcodec libx264 -acodec aac $1.mp4
-#ffmpeg -i $1 -q:v 1 -vcodec libx264 -acodec aac -map 0:0 -map 0:1 $1.mp4
+## blue-ray mkv2mp4
+#ffmpeg_v3.2.2 -i $1 -q:v 1 -vcodec libx264 -acodec aac -map 0:0 -map 0:1 -map_chapters -1 -metadata title=$2 $1.mp4
 
 
 ################################################
@@ -283,4 +284,8 @@ ffmpeg -i input.mp4 -c:v copy -c:a copy -f hls -hls_key_info_file video.keyinfo 
 ################################################
 ffmpeg -allowed_extensions ALL -i stream.m3u8 -c copy output.mp4
 
+################################################
+## fade out
+## -vf fade=t=out:st=4:d=1
+################################################
 
