@@ -14,7 +14,7 @@ import random
 def main():
 
     for i in range(10):
-        a = random.randint(1,10)
+        a = 1
         b = random.randint(1,9)
         c = random.randint(1,9)
         print('Question {}:'.format(i+1))
