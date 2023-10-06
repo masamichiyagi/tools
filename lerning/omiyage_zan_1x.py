@@ -17,10 +17,9 @@ def main():
         a = 1
         b = random.randint(1,9)
         c = random.randint(1,9)
-        print('Question {}:'.format(i+1))
-        print(' {} * {} ='.format(10*a+b, 10*a+c))
+        print('({:02})  {} * {} ='.format(i+1, 10*a+b, 10*a+c))
         print(' {} * {} + {}*{} =    {} + {} ='.format(10*a+b+c, 10*a, b, c, (10*a+b+c)*10*a, b*c))
-        print('          The answer is {}'.format((10*a+b)*(10*a+c)))
+        print('          The answer is {}.'.format((10*a+b)*(10*a+c)))
         print('')
 
 if __name__ == '__main__':
