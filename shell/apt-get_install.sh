@@ -63,7 +63,7 @@ sudo update-alternatives --config python3
 # Python tools
 ##########################
 pip3 install numpy
-pip3 install python-opencv
+pip3 install opencv-python
 pip3 install pdf2image
 pip3 install pdfkit
 pip3 install pandas
