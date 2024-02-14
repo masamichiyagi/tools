@@ -27,6 +27,12 @@ sudo apt-get install git -y
 ##########################
 # imagemagick convert
 sudo apt-get install imagemagick -y
+## sudo vim /etc/ImageMagick-6/policy.xml 
+## -<policy domain="coder" rights="none" pattern="PDF" />
+## +<policy domain="coder" rights="read|write" pattern="PDF" />
+# image to text
+sudo apt -y install tesseract-ocr tesseract-ocr-jpn libtesseract-dev libleptonica-dev tesseract-ocr-script-jpan tesseract-ocr-script-jpan-vert 
+
 
 ##########################
 # PDF editor
