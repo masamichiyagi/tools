@@ -1,7 +1,19 @@
-TITLE=`youtube-dl -e $1`
+#TITLE=`youtube-dl -e $1`
+TITLE=`yt-dlp -e $1`
 OUT_FNAME=`echo "$2_${TITLE}.mp4" | sed "s@/@_@g"`
-VIDEO_OPTION=137
-AUDIO_OPTION=$(youtube-dl $1 -F | grep 22 | wc -l)
+VIDEO_OPTION=$(yt-dlp $1 -F | grep "137 mp4" | wc -l)
+if [ ${VIDEO_OPTION} = 1 ]; then
+  VIDEO_OPTION=137
+else
+  VIDEO_OPTION=$(yt-dlp $1 -F | grep "136 mp4" | wc -l)
+  if [ ${VIDEO_OPTION} = 1 ]; then
+    VIDEO_OPTION=136
+  else
+    VIDEO_OPTION=135
+  fi
+fi
+#AUDIO_OPTION=$(youtube-dl $1 -F | grep 22 | wc -l)
+AUDIO_OPTION=$(yt-dlp $1 -F | grep 22 | wc -l)
 if [ ${AUDIO_OPTION} = 1 ]; then
   AUDIO_OPTION=22
   WORK2FNAME=work2.mp4
