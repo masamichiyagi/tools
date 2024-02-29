@@ -13,7 +13,7 @@ else
   fi
 fi
 #AUDIO_OPTION=$(youtube-dl $1 -F | grep 22 | wc -l)
-AUDIO_OPTION=$(yt-dlp $1 -F | grep 22 | wc -l)
+AUDIO_OPTION=$(yt-dlp $1 -F | grep "22 m4a" | wc -l)
 if [ ${AUDIO_OPTION} = 1 ]; then
   AUDIO_OPTION=22
   WORK2FNAME=work2.mp4
