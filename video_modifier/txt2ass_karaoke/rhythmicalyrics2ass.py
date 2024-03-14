@@ -133,9 +133,9 @@ def filtering(filename, settings):
         ################################
         # Karaoke text file error check
         ################################
-        if re.match('^\r\n$',line): # Only new line
+        if re.match('(^\r\n$|^\n$)',line): # Only new line
             continue
-        elif not re.match('(^\r\n$|^$)',columns[len(columns)-1]):
+        elif not re.match('(^\r\n$|^\n$|^$)',columns[len(columns)-1]):
             print(columns, columns[len(columns)-1])
             print("Error : {}行目に終了タグがありません".format(row+1))
             sys.exit(1)
@@ -246,11 +246,23 @@ def filtering(filename, settings):
 ## Main roop
 ###################################
 def main():
-    args = arg_parser()
-
-    # Get file lists
-    filename = args.infile
-    settings = args.settings
+    #DRUG_DROP = True
+    DRUG_DROP = False
+    if DRUG_DROP :
+        paths = sys.argv[1:]
+        for path in paths:
+            if '-i' == path:
+                continue
+            elif '-s' == path:
+                continue
+            else:
+                filename = path
+            settings = "settings.ini"
+    else:
+        args = arg_parser()
+        # Get file lists
+        filename = args.infile
+        settings = args.settings
 
     # Function
     result = filtering(filename, settings)
