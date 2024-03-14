@@ -6,6 +6,10 @@ import pandas as pd
 import re
 from datetime import datetime, timedelta
 
+#####################################################################
+## Usage: python rhythmicalyrics2ass.py -i lyrics.txt -s settings.ini
+#####################################################################
+
 #################################################
 ## Gloval Variables Definition
 #################################################
@@ -25,6 +29,8 @@ def arg_parser():
 #################################################
 ## Functions
 #################################################
+
+# timedelta to "HH:MM:SS.ff"
 def elapsed_time_str(time_delta):
     mseconds = time_delta.total_seconds()
     h = int(mseconds // 3600)
@@ -34,18 +40,18 @@ def elapsed_time_str(time_delta):
     return "{:02}:{:02}:{:02}.{:02}".format(h, m, s, mi)
 
 def filtering(filename, settings):
-    #########################
-    # Variables Definition
-    #########################
-    settings_ini = settings
-    lyrics = ""
+    ##########################
+    # Variables initialization
+    ##########################
+    settings_ini = settings # ASS setting filename
+    lyrics = "" # Header and body of lyrics
     f = open(filename)
     lines = f.readlines()
     f.close()
 
-    #########################
+    ##########################
     # Read setting file
-    #########################
+    ##########################
     df = pd.read_csv(settings_ini)
     primarycolour = df[df['key'].isin(['primarycolour'])].iloc[0,1]
     secondarycolour = df[df['key'].isin(['secondarycolour'])].iloc[0,1]
@@ -64,9 +70,9 @@ def filtering(filename, settings):
     marginbottom = int(df[df['key'].isin(['marginbottom'])].iloc[0,1])
     marginside = int(df[df['key'].isin(['marginside'])].iloc[0,1])
 
-    #########################
+    ##########################
     # Write lyrics header
-    #########################
+    ##########################
     lyrics = "[Script Info]\r\n"
     lyrics += "; [Song Info]\r\n"
     lyrics += "; Artist: \r\n"
@@ -89,152 +95,150 @@ def filtering(filename, settings):
     lyrics += "Style: Kanji1,"+font+"," + fontsize +","+ primarycolour +","+ secondarycolour + ","+ outlinecolour +"," + backcolour + ",-1,0,0,0,100,100,0,0,1,"+ outline + ",3,1,50,50,30,128\r\n"
     lyrics += "\r\n"
 
-    #########################
-    # Variables Definition
-    #########################
+    ##########################
+    # Variables initialization
+    ##########################
     res_x = int(res_x)
     res_y = int(res_y)
     fontsize = int(fontsize)
     outline = int(outline)
 
     start_minus_flg = 0
-    gyo_start_sec = 0
-    gyo_start_time = 0
-    gyo_end_sec = 0
-    gyo_end_time = 0
-    gyo = 0
-    track = 1
+    row_start_sec = 0
+    row_start_time = 0
+    row_end_sec = 0
+    row_end_time = 0
+    row = 0
+    track = 1 # Multi line flag
     ASStable = []
     
     lyrics += "[Events]\r\n"
     lyrics += "Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text\r\n"
 
-    #########################
-    # while read lines
-    #########################
+    ##########################
+    # While read lines
+    ##########################
     for line in lines:
-        #########################
-        # Variables Definition
-        #########################
+        ##########################
+        # Variables Initialization
+        ##########################
         lyrics_a="" # lyrics of line
         words=""
         track = 1
         multiline = 0
-        row_count = 0
-        comu_sec = 0 # time tag
-        rows = re.split('[\[\]]', line)
+        column_count = 0
+        comu_sec = 0 # elapsed time
+        columns = re.split('[\[\]]', line)
 
-        #########################
-        # Error check
-        #########################
+        ################################
+        # Karaoke text file error check
+        ################################
         if re.match('^\r\n$',line): # Only new line
             continue
-        elif not re.match('(^\r\n$|^$)',rows[len(rows)-1]):
-            print(rows, rows[len(rows)-1])
-            print("Error : {}行目に終了タグがありません".format(gyo+1))
+        elif not re.match('(^\r\n$|^$)',columns[len(columns)-1]):
+            print(columns, columns[len(columns)-1])
+            print("Error : {}行目に終了タグがありません".format(row+1))
             sys.exit(1)
-        elif not re.match('^$',rows[0]):
-            print(rows, rows[len(rows)-1])
-            print("Error : {}行目に開始タグがありません".format(gyo+1))
+        elif not re.match('^$',columns[0]):
+            print(columns, columns[len(columns)-1])
+            print("Error : {}行目に開始タグがありません".format(row+1))
             sys.exit(1)
-        if len(rows) <= 1:
+        if len(columns) <= 1:
             print("Error : 時間タグがありません")
             sys.exit(1)
-        if re.match('^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$' ,rows[1]):
-            time = datetime.strptime(rows[1], '%M:%S:%f')
+        if re.match('^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$' ,columns[1]):
+            time = datetime.strptime(columns[1], '%M:%S:%f')
             time_delta = timedelta(minutes=time.minute, seconds=time.second, microseconds=time.microsecond)
             comu_sec = int(time_delta.total_seconds()*100)
 
-        # Start Time
-        gyo_start_sec = comu_sec - before_sec
-        if gyo_start_sec < 0:
-            gyo_start_sec = 0
+        row_start_sec = comu_sec - before_sec # Start time
+        if row_start_sec < 0:
+            row_start_sec = 0
             start_minus_flg = 1
-        time_delta = timedelta(milliseconds=gyo_start_sec*10)
-        gyo_start_time = elapsed_time_str(time_delta)
+        time_delta = timedelta(milliseconds=row_start_sec*10)
+        row_start_time = elapsed_time_str(time_delta)
 
         #########################
-        # while read rows
+        # While read columns
         #########################
-        for row in rows:
-            if row_count <= 1:
-                row_count +=1
+        for column in columns:
+            if column_count <= 1:
+                column_count +=1
                 continue
-            if row_count == (len(rows)-1):
+            if column_count == (len(columns)-1):
                 break
-            if re.match('^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$' ,row):
-                time = datetime.strptime(row, '%M:%S:%f')
+            if re.match('^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$' ,column):
+                time = datetime.strptime(column, '%M:%S:%f')
                 time_delta = timedelta(minutes=time.minute, seconds=time.second, microseconds=time.microsecond)
                 interval_sec = int(time_delta.total_seconds()*100) - comu_sec
                 comu_sec = int(time_delta.total_seconds()*100)
-                gyo_end_sec = int(time_delta.total_seconds()*100) + after_sec
-                gyo_end_time = elapsed_time_str(timedelta(milliseconds=(gyo_end_sec)*10))
+                row_end_sec = int(time_delta.total_seconds()*100) + after_sec
+                row_end_time = elapsed_time_str(timedelta(milliseconds=(row_end_sec)*10))
                 lyrics_a += "{\\K" + "{:02}".format(interval_sec) + "}"
                 lyrics_a += words
             else:
-                words = row
-            row_count +=1
-
-        
+                words = column
+            column_count +=1
 
         ASStable.append({
-            'startsec' : str(gyo_start_sec),
-            'start' : str(gyo_start_time),
-            'endsec' : str(gyo_end_sec),
-            'end' : str(gyo_end_time),
+            'startsec' : str(row_start_sec),
+            'start' : str(row_start_time),
+            'endsec' : str(row_end_sec),
+            'end' : str(row_end_time),
             'before' : str(before_sec),
             'cont' : str(lyrics_a),
             'track' : track,
             'multi' : 0
         })
         if start_minus_flg == 1:
-            time = datetime.strptime(rows[1], '%M:%S:%f')
+            time = datetime.strptime(columns[1], '%M:%S:%f')
             time_delta = timedelta(minutes=time.minute, seconds=time.second, microseconds=time.microsecond)
             comu_sec = int(time_delta.total_seconds()*100)
-            ASStable[gyo]['before'] = str(comu_sec)
+            ASStable[row]['before'] = str(comu_sec)
             start_minus_flg = 0
 
-
-
-        # 1行前の End Time
-        if gyo >= 1 :
-            gyo1_end_sec = int(ASStable[gyo-1]['endsec'])
+        # End Time one lines earlier
+        if row >= 1 :
+            row1_end_sec = int(ASStable[row-1]['endsec'])
         else :
-            gyo1_end_sec = 0
+            row1_end_sec = 0
 
-        if (gyo_start_sec - gyo1_end_sec) < 0 :
+        if (row_start_sec - row1_end_sec) < 0 :
             multiline = 1
-            if ASStable[gyo-1]['multi'] == 0 :
+            if ASStable[row-1]['multi'] == 0 :
                 track = 2
-                ASStable[gyo-1]['multi'] = 1
+                ASStable[row-1]['multi'] = 1
             else :
-                if ASStable[gyo-1]['track'] == 1 :
+                if ASStable[row-1]['track'] == 1 :
                     track = 2
-                elif ASStable[gyo-1]['track'] == 2 :
+                elif ASStable[row-1]['track'] == 2 :
                     track = 1
-            if gyo >= 2:
-                gyo2_end_sec = int(ASStable[gyo-2]['endsec'])
-                if (gyo_start_sec - gyo2_end_sec) < 0 :
-                    gyo2_end_sec = gyo_start_sec - 20
-                    gyo2_end_time = elapsed_time_str(timedelta(milliseconds=(gyo2_end_sec)*10))
-                    ASStable[gyo-2]['endsec'] = str(gyo2_end_sec)
-                    ASStable[gyo-2]['end'] = str(gyo2_end_time)
+            # End Time two lines earlier
+            if row >= 2:
+                row2_end_sec = int(ASStable[row-2]['endsec'])
+                # If the start time is greater than the end time of the previous phrase,
+                # modify the end time of the previous phrase
+                if (row_start_sec - row2_end_sec) < 0 :
+                    row2_end_sec = row_start_sec - 15
+                    row2_end_time = elapsed_time_str(timedelta(milliseconds=(row2_end_sec)*10))
+                    ASStable[row-2]['endsec'] = str(row2_end_sec)
+                    ASStable[row-2]['end'] = str(row2_end_time)
         
-        ASStable[gyo]['multi'] = multiline
-        ASStable[gyo]['track'] = track
+        ASStable[row]['multi'] = multiline
+        ASStable[row]['track'] = track
 
         # Position X, Y
-        if ASStable[gyo]['track'] == 1 :
-            ASStable[gyo]['pos_x'] = str((res_x - (fontsize + outline * 2) ) / 4 - marginside)
-            ASStable[gyo]['pos_y'] = str(res_y - marginbottom)
+        if ASStable[row]['track'] == 1 :
+            ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) ) / 4 - marginside)
+            ASStable[row]['pos_y'] = str(res_y - marginbottom)
         else :
-            ASStable[gyo]['pos_x'] = str(marginside)
-            ASStable[gyo]['pos_y'] = str(res_y - (fontsize + outline * 2) - lineheight)
-        gyo += 1
+            ASStable[row]['pos_x'] = str(marginside)
+            ASStable[row]['pos_y'] = str(res_y - (fontsize + outline * 2) - lineheight)
+        row += 1
 
     # Write lyrics body
-    for gyo in range(len(ASStable)):
-        lyrics += "Dialogue: 110," + ASStable[gyo]['start'] + "," + ASStable[gyo]['end'] +",Kanji1,,0000,0000,0000,Karaoke,{\\q2}{\\pos("+ ASStable[gyo]['pos_x'] +","+ ASStable[gyo]['pos_y'] +")}{\\K" + ASStable[gyo]['before'] +"}" + ASStable[gyo]['cont'] + "\r\n"
+    for row in range(len(ASStable)):
+        lyrics += "Dialogue: 110," + ASStable[row]['start'] + "," + ASStable[row]['end'] +",Kanji1,,0000,0000,0000,Karaoke,{\\q2}{\\pos("+ ASStable[row]['pos_x'] +","+ ASStable[row]['pos_y'] +")}{\\K" + ASStable[row]['before'] +"}" + ASStable[row]['cont'] + "\r\n"
 
     return lyrics
 
