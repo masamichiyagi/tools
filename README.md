@@ -8,6 +8,9 @@ pythonとシェルスクリプトのツール
 
 ## Description
 
+### vimrc
+* vimrc : VIMの設定ファイル。.vimrcにリネームして使用してください。
+
 ### shell
 * renban.py : #桁の連番を作成するスクリプト
 * resort_renban.py : #桁の逆連番を作成するスクリプト
