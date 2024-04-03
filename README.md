@@ -52,7 +52,7 @@ pythonとシェルスクリプトのツール
 * generage_password.py : 安全なパスワードを生成するスクリプト
 * pdf2images.py : PDFに埋め込まれた画像ファイルを抽出するスクリプト
 
-### text_modifier
+### learning
 * omiyage_zan.py : お土産算のための問題を10問生成するツール
 
 ## Demo
