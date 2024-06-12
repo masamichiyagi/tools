@@ -69,6 +69,7 @@ def filtering(filename, settings):
     lineheight = int(df[df['key'].isin(['lineheight'])].iloc[0,1])
     marginbottom = int(df[df['key'].isin(['marginbottom'])].iloc[0,1])
     marginside = int(df[df['key'].isin(['marginside'])].iloc[0,1])
+    position = df[df['key'].isin(['position'])].iloc[0,1]
 
     ##########################
     # Write lyrics header
@@ -229,11 +230,19 @@ def filtering(filename, settings):
 
         # Position X, Y
         if ASStable[row]['track'] == 1 :
-            ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) ) / 4 - marginside)
-            ASStable[row]['pos_y'] = str(res_y - marginbottom)
+            if 'center' == position:
+                ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) / 2) / 3 - marginside)
+                ASStable[row]['pos_y'] = str(res_y - marginbottom)
+            elif 'left' == position:
+                ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) ) / 4 - marginside)
+                ASStable[row]['pos_y'] = str(res_y - marginbottom)
         else :
-            ASStable[row]['pos_x'] = str(marginside)
-            ASStable[row]['pos_y'] = str(res_y - (fontsize + outline * 2) - lineheight)
+            if 'center' == position:
+                ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) / 2) / 4 - marginside)
+                ASStable[row]['pos_y'] = str(res_y - (fontsize + outline * 2) - lineheight)
+            elif 'left' == position:
+                ASStable[row]['pos_x'] = str(marginside)
+                ASStable[row]['pos_y'] = str(res_y - (fontsize + outline * 2) - lineheight)
         row += 1
 
     # Write lyrics body
@@ -246,8 +255,8 @@ def filtering(filename, settings):
 ## Main roop
 ###################################
 def main():
-    #DRUG_DROP = True
-    DRUG_DROP = False
+    DRUG_DROP = True
+    #DRUG_DROP = False
     if DRUG_DROP :
         paths = sys.argv[1:]
         for path in paths:
