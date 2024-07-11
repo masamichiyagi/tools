@@ -95,4 +95,13 @@ sudo apt-get install ffmpeg -y
 #sudo apt-get update
 #sudo apt-get install ffmpeg
 
+##########################
+# wav to text tool (English)
+##########################
+sudo apt install pocketsphinx pocketsphinx-en-us
+#### how to use
+## ffmpeg -i file.mp3 -ar 16000 -ac 1 file.wav
+## pocketsphinx_continuous -infile file.wav 2> pocketsphinx.log > myspeech.txt
+##########################
+
 

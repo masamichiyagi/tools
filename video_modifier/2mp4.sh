@@ -277,7 +277,8 @@ ffmpeg -i $1 -c copy -bsf:a aac_adtstoasc -movflags faststart $2
 ### video.keyinfo
 #### key file name
 #### path to the key file
-#### for example
+#### for example vim video.keyinfo
+################################################
 #### key.bin
 #### ./key.bin
 ################################################
