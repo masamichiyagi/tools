@@ -30,6 +30,6 @@ def arg_parser():
 if __name__ == "__main__":
     args = arg_parser()
     length = int(args.length)
-    randlst = [random.choice(string.ascii_letters + string.digits) for i in range(length)]
+    randlst = [random.choice(string.ascii_letters + string.digits + '_') for i in range(length)]
     print(''.join(randlst))
 

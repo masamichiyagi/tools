@@ -229,16 +229,20 @@ def filtering(filename, settings):
         ASStable[row]['track'] = track
 
         # Position X, Y
+        lystic_line = re.sub('\[.*?\]','',line)
         if ASStable[row]['track'] == 1 :
             if 'center' == position:
-                ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) / 2) / 3 - marginside)
+                ## Width 1920, Fontsize 84の場合、4文字で216ptのため、-30ptされている。Fontsizeに合わせて個別調整すること
+                ASStable[row]['pos_x'] = str((res_x - ((fontsize-30) * len(lystic_line))) / 2)
+                #ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) / 2) / 3 - marginside)
                 ASStable[row]['pos_y'] = str(res_y - marginbottom)
             elif 'left' == position:
                 ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) ) / 4 - marginside)
                 ASStable[row]['pos_y'] = str(res_y - marginbottom)
         else :
             if 'center' == position:
-                ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) / 2) / 4 - marginside)
+                ASStable[row]['pos_x'] = str((res_x - ((fontsize-30) * len(lystic_line))) / 3)
+                #ASStable[row]['pos_x'] = str((res_x - (fontsize + outline * 2) / 2) / 4 - marginside)
                 ASStable[row]['pos_y'] = str(res_y - (fontsize + outline * 2) - lineheight)
             elif 'left' == position:
                 ASStable[row]['pos_x'] = str(marginside)
