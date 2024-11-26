@@ -94,6 +94,14 @@ sudo apt-get install ffmpeg -y
 #sudo -E add-apt-repository ppa:mc3man/trusty-media
 #sudo apt-get update
 #sudo apt-get install ffmpeg
+######## old version ffmpeg instal sumple
+#sudo apt-get install build-essential automake autoconf zlib1g-dev libtool libx264-dev yasm
+#wget http://ffmpeg.org/releases/ffmpeg-3.2.2.tar.bz2
+#tar xjf ffmpeg-3.2.2.tar.bz2
+#cd ffmpeg-3.2.2
+#./configure --enable-libx264 --enable-gpl
+#make
+#sudo make install
 
 ##########################
 # wav to text tool (English)
