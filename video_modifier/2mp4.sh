@@ -180,6 +180,11 @@
 # ffmpeg -y -i movie.mp4 -itsoffset 00:00:03 -i audio.m4a -vcodec copy -bsf:a aac_adtstoasc -async 1 -strict -2 out.mp4
 
 ################################################
+## audio 7.1ch to 5.1ch
+################################################
+# ffmpeg -i input.mkv -vn -ac 6 -c:a aac 6ch.m4a
+
+################################################
 ## video offset insert
 ################################################
 ## start offset 10 frame, color black
