@@ -107,7 +107,7 @@
 # text jimaku overlay: hard encoding is needed
 ################################################
 # ffmpeg -i in.mp4 -vf subtitles=subtitles.ass out.mp4
-# ffmpeg -i in.mp4 -vf subtitles=1.ass,subtitels=2.ass out.mp4 # 2 subtitles encode
+# ffmpeg -i in.mp4 -vf subtitles=1.ass,subtitles=2.ass out.mp4 # 2 subtitles encode
 # ffmpeg -i in.mkv -vf subtitles=in.mkv out.mp4
 # ffmpeg -i in.mp4 -vf "subtitles=jimaku.srt:force_style='Fontsize=26,FontName=Meiryo UI'"
 ## background color black
