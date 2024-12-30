@@ -175,6 +175,11 @@
 ################################################
 
 ################################################
+## audio stream swap, audio stream change
+## -vcodec copy -acodec copy -map 0:0:0:0 -map 0:1:0:2 -map 0:2:0:1
+################################################
+
+################################################
 ## audio offset insert
 ################################################
 # ffmpeg -y -i movie.mp4 -itsoffset 00:00:03 -i audio.m4a -vcodec copy -bsf:a aac_adtstoasc -async 1 -strict -2 out.mp4
