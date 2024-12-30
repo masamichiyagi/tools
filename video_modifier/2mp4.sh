@@ -176,7 +176,7 @@
 
 ################################################
 ## audio stream swap, audio stream change
-## -vcodec copy -acodec copy -map 0:0:0:0 -map 0:1:0:2 -map 0:2:0:1
+## -vcodec copy -acodec copy -map 0:v -map 0:a:1 -map 0:a:0 
 ################################################
 
 ################################################
