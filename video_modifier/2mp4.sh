@@ -180,6 +180,12 @@
 ################################################
 
 ################################################
+## audio default stream change
+## -disposition:a:0 default -disposition:a:1 0
+## 0 is deleting default.
+################################################
+
+################################################
 ## audio offset insert
 ################################################
 # ffmpeg -y -i movie.mp4 -itsoffset 00:00:03 -i audio.m4a -vcodec copy -bsf:a aac_adtstoasc -async 1 -strict -2 out.mp4
