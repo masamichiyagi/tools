@@ -19,11 +19,16 @@ def filtering(layer1filename, layer2filename):
         layer2img = Image.open( layer2filename )
         layer1img = layer1img.convert('RGBA')
         layer2img = layer2img.convert('RGBA')
-        layer1img.paste(layer2img, (0, 0), layer2img)
+
+        canvas_size = (layer1img.size[0], layer1img.size[1])
+        canvas = Image.new('RGBA', canvas_size, (255, 255, 255, 0))
+        canvas.paste(layer1img, (0, 0), layer1img)
+        canvas.paste(layer2img, (0, 0), layer2img)
+        canvas = canvas.convert('RGB')
     except:
         print('Cant load ', layer1filename, layer2filename)
         sys.exit(1)
-    return layer1img 
+    return canvas
 
 if (not os.path.exists(args.topimg)):
     print ("image file does not exists : " + args.topimg)
