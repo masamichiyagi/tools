@@ -34,6 +34,7 @@
 # ffmpeg -loop 1 -i input.png -t 0:0:6 -vcodec libx264 -pix_fmt yuv420p out.mp4
 # ffmpeg -f lavfi -i color=c=black:s=1920x1080:r=30000/1001 -t 0:0:5 a.mp4
 # ffmpeg -f lavfi -i color=c=black:s=960x540:r=30000/1001 -t 0:0:5 a.mp4
+# ffmpeg -r 30 -i %4d.png -vcodec libx264 -pix_fmt yuv420p output.mp4
 
 ################################################
 ## mp4 to image
@@ -233,7 +234,7 @@
 ## overlay 途中に差し込み
 ## delay : setpts=PTS-STARTPTS+time/TB[hoge]
 ################################################
-# ffmpeg -i input1 -i input2 -filter_complex "[1:v]setpts=PTS-STARTPTS+22.89/TB[top];[0:v][top]overlay=x=512:y=0:enable='between(t,22.89,40.28)'" output
+# ffmpeg -i bottom.mp4 -i top.png -filter_complex "[1:v]setpts=PTS-STARTPTS+22.89/TB[top];[0:v][top]overlay=x=512:y=0:enable='between(t,22.89,40.28)'" output
 ################################################
 ## すかしを消す
 ## crop -> overlay
