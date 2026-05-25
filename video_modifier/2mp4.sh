@@ -38,8 +38,7 @@
 ################################################
 ## mp4 to image
 ################################################
-# ffmpeg -ss 0:0:0 -i input.mp4 -vcodec png -r 1 -t 0:0:1 img%03d.png
-# ffmpeg -i input.mp4 -ss 0:0:0 -vcodec png -r 1 -t 0:0:1 img%03d.png
+# ffmpeg -ss 0:0:0 -i input.mp4 -vcodec png -r 60 -t 0:0:1 %04d.png
 
 ################################################
 ## Option: resize 1920x1080, 1280x720, 1024x576, 960x540
