@@ -16,7 +16,7 @@ def arg_parser():
 args = arg_parser()
 
 option = {
-    #'js-runtimes' : r"deno:C:\Users\yagi.masamichi\.deno\bin\deno.exe",
+    #'js-runtimes' : r"deno:C:\Users\xxx\.deno\bin\deno.exe",
     'format' : 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best',
     'remote_components' : {'ejs:npm':'npm'}
 }
