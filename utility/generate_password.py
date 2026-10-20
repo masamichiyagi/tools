@@ -18,7 +18,7 @@ import string
 ###################################
 def arg_parser():
     parser = argparse.ArgumentParser(description='Filter')
-    parser.add_argument('-l', '--length',  dest='length',  help='password length', default='12', required=False)
+    parser.add_argument('-l', '--length',  dest='length',  help='password length', default='16', required=False)
     parser.add_argument('-k', '--kigou',  dest='kigou',  help='usable kigou', default='_', required=False)
     args = parser.parse_args()
 
