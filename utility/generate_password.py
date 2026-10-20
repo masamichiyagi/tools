@@ -18,7 +18,8 @@ import string
 ###################################
 def arg_parser():
     parser = argparse.ArgumentParser(description='Filter')
-    parser.add_argument('-l', '--length',  dest='length',  help='password length', default='8', required=False)
+    parser.add_argument('-l', '--length',  dest='length',  help='password length', default='12', required=False)
+    parser.add_argument('-k', '--kigou',  dest='kigou',  help='usable kigou', default='_', required=False)
     args = parser.parse_args()
 
     return args
@@ -30,6 +31,9 @@ def arg_parser():
 if __name__ == "__main__":
     args = arg_parser()
     length = int(args.length)
-    randlst = [random.choice(string.ascii_letters + string.digits + '_') for i in range(length)]
-    print(''.join(randlst))
+    kigou = args.kigou
+    password = random.choice(kigou)
+    password += ''.join(random.choice(string.ascii_letters + string.digits + kigou) for _ in range(length - 1))
+    password = ''.join(random.sample(password, len(password)))
+    print(password)
 
